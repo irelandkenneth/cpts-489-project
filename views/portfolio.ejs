@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio - VirtualMarket</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">
+        <a href="/">
+          <img
+            src="/images/logo.png"
+            alt="VirtualMarket Logo"
+            class="logo-img"
+          />
+        </a>
+      </div>
+
+      <div class="nav-container">
+        <nav class="nav-links">
+          <a href="/">Home</a>
+          <a href="/stock">Stock Market</a>
+          <a href="/portfolio">Portfolio</a>
+        </nav>
+      </div>
+
+      <div class="header-buttons">
+        <a href="/Login"><button>Register</button></a>
+        <a href="/Login"><button>Login</button></a>
+      </div>
+    </header>
+
+    <!-- Portfolio Content -->
+    <main class="portfolio-page">
+      <div class="chart-box">
+        <canvas id="portfolioChart"></canvas>
+      </div>
+
+      <div class="portfolio-stats">
+        <div>Portfolio Total: <strong>$55</strong></div>
+        <div>Portfolio Change: <span class="red">-$10</span></div>
+        <div>Portfolio Change %: <span class="red">-15%</span></div>
+      </div>
+    </main>
+
+    <script>
+      const ctx = document.getElementById("portfolioChart").getContext("2d");
+      new Chart(ctx, {
+        type: "line",
+        data: {
+          labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+          datasets: [
+            {
+              label: "Portfolio Total",
+              data: [65, 59, 80, 81, 56, 55],
+              borderColor: "#00cc66",
+              backgroundColor: "rgba(0, 204, 102, 0.2)",
+              tension: 0.3,
+              pointBackgroundColor: "#fff",
+              fill: true,
+            },
+          ],
+        },
+        options: {
+          plugins: {
+            legend: {
+              labels: { color: "#fff" },
+            },
+          },
+          scales: {
+            x: {
+              ticks: { color: "#ccc" },
+              grid: { color: "#444" },
+            },
+            y: {
+              ticks: { color: "#ccc" },
+              grid: { color: "#444" },
+            },
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

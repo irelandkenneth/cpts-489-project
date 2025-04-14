@@ -4,17 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <title>Login / Create Account</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
     <style>
       body {
         margin: 0;
         font-family: Arial, sans-serif;
-        background-color: rgb(32, 32, 32);
+        background-color: rgb(20, 24, 28);
         color: white;
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
-        height: 100vh;
       }
 
       .header {
@@ -23,24 +22,42 @@
         width: 100%;
         text-align: center;
         box-shadow: 0px 0px 5px rgba(255, 255, 255, 0.1);
-        position: absolute;
-        top: 0;
-        left: 0;
       }
 
       .logo {
-        font-size: 24px;
-        font-weight: bold;
-        font-family: "Arial Black", sans-serif;
-        letter-spacing: 2px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
 
-      .logo .virtual {
-        color: #66cc66;
+      .logo-img {
+        height: 60px;
+        object-fit: contain;
       }
 
-      .logo .market {
-        color: #007bff;
+      .login-container {
+        margin-top: 100px;
+        width: 100%;
+        max-width: 400px;
+        background-color: rgb(30, 34, 38);
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+      }
+
+      .login-container h2 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .input-box {
+        margin-bottom: 15px;
+      }
+
+      .input-box label {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 14px;
       }
 
       .input-box input {
@@ -73,12 +90,28 @@
         background-color: #66cc66;
         color: white;
       }
+
+      @media (max-width: 500px) {
+        .login-container {
+          margin: 80px 20px;
+        }
+
+        .logo-img {
+          height: 50px;
+        }
+      }
     </style>
   </head>
   <body>
     <div class="header">
       <div class="logo">
-        <span class="virtual">Virtual</span><span class="market">Market</span>
+        <a href="/">
+          <img
+            src="/images/logo.png"
+            alt="Virtual Market logo"
+            class="logo-img"
+          />
+        </a>
       </div>
     </div>
 
@@ -87,11 +120,11 @@
       <form>
         <div class="input-box">
           <label for="email">Email</label>
-          <input type="email" />
+          <input type="email" id="email" name="email" required />
         </div>
         <div class="input-box">
           <label for="password">Password</label>
-          <input type="password" />
+          <input type="password" id="password" name="password" required />
         </div>
         <button type="submit" class="button button-primary">Login</button>
         <button type="button" class="button button-secondary">

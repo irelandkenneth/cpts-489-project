@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title><%= stockSymbol.toUpperCase() %> - Stock Details</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <style>
+      .stock-details-container {
+        max-width: 800px;
+        margin: 100px auto;
+        padding: 30px;
+        background-color: rgb(30, 34, 38);
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+        color: white;
+      }
+
+      .stock-header {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .stock-header h2 {
+        font-size: 32px;
+        margin-bottom: 10px;
+      }
+
+      .stock-info {
+        font-size: 18px;
+        line-height: 1.6;
+      }
+
+      .stock-price {
+        font-size: 28px;
+        font-weight: bold;
+        color: #66cc66;
+      }
+
+      .stock-change {
+        font-size: 18px;
+      }
+
+      .red {
+        color: #ff4d4d;
+      }
+
+      .green {
+        color: #66cc66;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <div class="logo">
+        <a href="/">
+          <img
+            src="/images/logo.png"
+            alt="Virtual Market logo"
+            class="logo-img"
+          />
+        </a>
+      </div>
+
+      <div class="nav-container">
+        <div class="nav-links">
+          <a href="/">Home</a>
+          <a href="/stock">Stock Market</a>
+          <a href="/portfolio">Portfolio</a>
+        </div>
+      </div>
+      <div class="header-buttons">
+        <a href="/login"><button>Register</button></a>
+        <a href="/login"><button>Login</button></a>
+      </div>
+    </div>
+
+    <div class="stock-details-container">
+      <div class="stock-header">
+        <h2><%= stockSymbol.toUpperCase() %> - <%= companyName %></h2>
+        <div class="stock-price">$<%= price %></div>
+        <div class="stock-change <%= changePercent >= 0 ? 'green' : 'red' %>">
+          <%= changePercent >= 0 ? '+' : '' %><%= changePercent %>%
+        </div>
+      </div>
+
+      <div class="stock-info">
+        <p><strong>Exchange:</strong> <%= exchange %></p>
+        <p><strong>Asset Class:</strong> <%= assetClass %></p>
+        <p><strong>Symbol:</strong> <%= stockSymbol.toUpperCase() %></p>
+        <!-- Add more info as needed -->
+      </div>
+    </div>
+  </body>
+</html>
