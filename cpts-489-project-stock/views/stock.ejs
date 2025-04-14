@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Stock Market</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <style>
+      .stock-container {
+        max-width: 800px;
+        margin: 100px auto 40px;
+        padding: 20px;
+        background-color: rgb(30, 34, 38);
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+      }
+
+      .stock-container h2 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .stock-search {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+
+      .stock-search input {
+        padding: 10px;
+        font-size: 16px;
+        width: 100%;
+        max-width: 300px;
+        border-radius: 5px;
+        border: none;
+        background-color: #444;
+        color: white;
+      }
+
+      .stock-search button {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .stock-search button:hover {
+        background-color: #0062cc;
+      }
+
+      .search-results {
+        text-align: center;
+        margin-top: 20px;
+        color: #ccc;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <div class="logo">
+        <a href="/">
+          <img
+            src="/images/logo.png"
+            alt="Virtual Market logo"
+            class="logo-img"
+          />
+        </a>
+      </div>
+
+      <div class="nav-container">
+        <div class="nav-links">
+          <a href="/">Home</a>
+          <a href="/stock">Stock Market</a>
+          <a href="/portfolio">Portfolio</a>
+        </div>
+      </div>
+      <div class="header-buttons">
+        <a href="/login"><button>Register</button></a>
+        <a href="/login"><button>Login</button></a>
+      </div>
+    </div>
+
+    <div class="stock-container">
+      <h2>Search for a Stock</h2>
+      <form class="stock-search" method="GET" action="/stock/search">
+        <input type="text" name="symbol" placeholder="e.g. AAPL" required />
+        <button type="submit">Search</button>
+      </form>
+
+      <% if (typeof stockSymbol !== 'undefined') { %>
+      <div class="search-results">
+        Showing results for: <strong><%= stockSymbol.toUpperCase() %></strong>
+        <!-- Later: display stock data here -->
+      </div>
+      <% } %>
+    </div>
+  </body>
+</html>
