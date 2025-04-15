@@ -4,15 +4,37 @@ const router = express.Router();
 const Alpaca = require('../models/alpaca');
 const alpaca = new Alpaca();
 
+const sequelize = require('../db');
+const Users = require('../models/users');
+
 /* Home */
 router.get('/', function(req, res) {
-  res.render('Home');
+  if (req.session.user) {
+    console.log(req.session.user.email, '-',)
+  }
+  res.render('Home', { user: req.session.user});
 });
 
 /* Login */
 router.get('/Login', function(req, res) {
   res.render('Login');
 });
+
+/* Signin */
+router.post('/Login/Signin', async (req, res) => {
+  const { email, password } = req.body;
+  const user = await Users.findUser(email, password);
+  if (user !== null) {
+    req.session.user = user;
+    console.log("Logging in: ", req.session.user.email)
+    res.redirect('/');
+  }
+})
+
+router.post('/Login/Signout', (req, res) => {
+  req.session.destroy();
+  res.redirect('/');
+})
 
 /* Stock Search Page */
 router.get('/stock', (req, res) => {
