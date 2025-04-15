@@ -23,8 +23,10 @@
       <form action="/Login/Signout" method="post">
         <button type="submit">Sign Out</button>
       </form>
+      <% if (user.admin) { %>
       <a href="/Admin">
         <button>Admin</button>
+      <% } %>
     </a>
     </div>
     <% } %> 

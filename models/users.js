@@ -44,6 +44,18 @@ class Users extends Model {
             console.error(error);
         }
     }
+
+    static async toggleAdmin(id) {
+        try {
+            const user = await Users.findOne({ where: { id: id } });
+        
+            user.admin = !user.admin;
+            await user.save();
+            return user;
+        } catch (error) {
+            console.error(error);
+        }
+    }
 }
 
 Users.init({
@@ -66,6 +78,10 @@ Users.init({
         allowNull: false
     },
     banned: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false
+    },
+    admin: {
         type: DataTypes.BOOLEAN,
         allowNull: false
     }

@@ -43,7 +43,8 @@ router.post('/CreateAccount/NewAccount', async (req, res) => {
     alpaca_id: alpacaAccInfo.accountId,
     email: req.body.email,
     password: req.body.password,
-    banned: 0
+    banned: 0,
+    admin: 0
   });
   console.log("User created with id:", user.id);
 
@@ -151,6 +152,17 @@ router.post('/admin/toggleBan/:userId', async (req, res) => {
     return res.status(500).send('Error toggling ban');
   }
   console.log('This user\'s ban has been altered:', bannedUser.email);
+  return res.redirect('/admin');
+})
+
+router.post('/admin/toggleAdmin/:userId', async (req, res) => {
+  const userId = req.params.userId;
+  var adminUser = await Users.toggleAdmin(userId);
+  if (adminUser === null) {
+    console.log('ERROR');
+    return res.status(500).send('Error toggling admin');
+  }
+  console.log('This user\'s admin status has been altered:', adminUser.email);
   return res.redirect('/admin');
 })
 
