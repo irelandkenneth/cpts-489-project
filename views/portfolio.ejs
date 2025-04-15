@@ -51,6 +51,13 @@
           <td>Stock: <%= position.symbol %></td>
           <td>Quantity: <%= position.qty %></td>
           <td>Total Return: $<%= position.unrealized_pl %></td>
+          <td>
+            <form action="/portfolio/sell" method="POST">
+              <input type="hidden" name="stockSymbol" value="<%= position.symbol %>">
+              <input type="number" name="quantity" min="1" max="<%= position.qty %>" required>
+              <button type="submit">Sell</button>
+            </form>
+          </td>
         </tr>
       <% } %>
     </main>
