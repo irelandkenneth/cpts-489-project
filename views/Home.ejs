@@ -26,10 +26,20 @@
         </div>
       </div>
 
+      <% if (user) { %>
+      <div>Welcome, <%= user.email %>!</div>
+      <div class="header-buttons">
+        <form action="/Login/Signout" method="post">
+          <button type="submit">Sign Out</button>
+        </form>
+      </div>
+      <% } %> 
+      <% if (!user) { %> 
       <div class="header-buttons">
         <a href="/login"><button>Register</button></a>
         <a href="/login"><button>Login</button></a>
       </div>
+      <% } %> 
     </div>
 
     <div class="section-1">

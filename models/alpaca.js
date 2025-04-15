@@ -384,8 +384,8 @@ class Alpaca {
       url: `https://broker-api.sandbox.alpaca.markets/v1/trading/accounts/${accountID}/account/portfolio/history?period=1D&timeframe=1H&intraday_reporting=continuous&pnl_reset=per_day`,
       headers: {
         accept: 'application/json',
-        'APCA-API-KEY-ID': process.env.ALPACA_API_KEY,
-        'APCA-API-SECRET-KEY': process.env.ALPACA_SECRET_KEY
+        authorization: 'Basic Q0syVzlDUkZOM1VHV0RRQ0oySUg6MGRiYldxY1NBb0d3MjdmRzcyRG1RWldNNlpLVjBnRHQ4VDFEaFBYTA=='
+
       }
     };
 
