@@ -2,14 +2,28 @@ var express = require('express');
 var router = express.Router()
 const Alpaca = require('../models/alpaca')
 const alpaca = new Alpaca()
+const users = require('../models/users')
 
-router.get('/', async function (req, res) {
+const sessionChecker = (req, res, next)=>{
+  if(req.session.user){
+    res.locals.username = req.session.user.username
+    next()
+  }else{
+    res.redirect("/login")
+  }
+}
+
+router.use(sessionChecker)
+
+router.get('/', async (req, res) => {
+
+  const alpacaId = req.session.user.alpaca_id
 
   // change to user's alpaca id when auth/login implemented
-  const openPositionsList = await alpaca.listOpenPositions("68c43f83-af08-4cca-93d8-e0e6e18a8568")
+  const openPositionsList = await alpaca.listOpenPositions(alpacaId)
   console.log(openPositionsList)
 
-  const portfolioHistory = await alpaca.getPortfolioHistory("68c43f83-af08-4cca-93d8-e0e6e18a8568")
+  const portfolioHistory = await alpaca.getPortfolioHistory(alpacaId)
 
   const timestamps = portfolioHistory.timestamp
   var pacificTimestamps = []
@@ -35,5 +49,15 @@ router.get('/', async function (req, res) {
   console.log(portfolioHistory)
   res.render('portfolio', { openPositionsList,  portfolioHistory, pacificTimestamps});
 });
+
+router.post('/sell', (req, res) => {
+  const { stockSymbol, quantity } = req.body
+  const alpacaId = req.session.user.alpaca_id
+
+  alpaca.createOrder(alpacaId, stockSymbol, quantity, null, "sell")
+
+  res.redirect('/portfolio')
+
+})
 
 module.exports = router
