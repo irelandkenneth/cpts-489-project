@@ -41,22 +41,33 @@
       </div>
 
       <div class="portfolio-stats">
-        <div>Portfolio Total: <strong>$55</strong></div>
-        <div>Portfolio Change: <span class="red">-$10</span></div>
-        <div>Portfolio Change %: <span class="red">-15%</span></div>
+        <div>Portfolio Total: <strong>$<%- portfolioHistory.equity.at(-1) %></strong></div>
+        <div>Portfolio Change: $<%- portfolioHistory.profit_loss.at(-1) %></div>
+        <div>Portfolio Change %: <%- portfolioHistory.profit_loss_pct.at(-1) * 100 %></div>
       </div>
+      <h1> Held Positions: </h1>
+      <% for (position of openPositionsList) { %>
+        <tr>
+          <td>Stock: <%= position.symbol %></td>
+          <td>Quantity: <%= position.qty %></td>
+          <td>Total Return: $<%= position.unrealized_pl %></td>
+        </tr>
+      <% } %>
     </main>
 
     <script>
       const ctx = document.getElementById("portfolioChart").getContext("2d");
+      const chartLabels = <%- JSON.stringify(pacificTimestamps) %>;
+      const chartData = <%- JSON.stringify(portfolioHistory.equity) %>;
+      chartLabels[chartLabels.length - 1] = "Now"
       new Chart(ctx, {
         type: "line",
         data: {
-          labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+          labels: chartLabels,
           datasets: [
             {
-              label: "Portfolio Total",
-              data: [65, 59, 80, 81, 56, 55],
+              label: "24 Hour Portfolio Total",
+              data: chartData,
               borderColor: "#00cc66",
               backgroundColor: "rgba(0, 204, 102, 0.2)",
               tension: 0.3,

@@ -28,8 +28,8 @@ class Alpaca {
       url: 'https://broker-api.sandbox.alpaca.markets/v1/accounts',
       headers: {
         accept: 'application/json',
+        'content-type': 'application/json',
         authorization: 'Basic Q0syVzlDUkZOM1VHV0RRQ0oySUg6MGRiYldxY1NBb0d3MjdmRzcyRG1RWldNNlpLVjBnRHQ4VDFEaFBYTA=='
-
       },
       data: {
 
@@ -126,8 +126,8 @@ class Alpaca {
       url: `https://broker-api.sandbox.alpaca.markets/v1/accounts/${accountId}/ach_relationships`,
       headers: {
         accept: 'application/json',
+        'content-type': 'application/json',
         authorization: 'Basic Q0syVzlDUkZOM1VHV0RRQ0oySUg6MGRiYldxY1NBb0d3MjdmRzcyRG1RWldNNlpLVjBnRHQ4VDFEaFBYTA=='
-
       },
       data: {
         "account_owner_name": "fake",
@@ -158,6 +158,7 @@ class Alpaca {
       url: `https://broker-api.sandbox.alpaca.markets/v1/accounts/${accountId}/transfers`,
       headers: {
         accept: 'application/json',
+        'content-type': 'application/json',
         authorization: 'Basic Q0syVzlDUkZOM1VHV0RRQ0oySUg6MGRiYldxY1NBb0d3MjdmRzcyRG1RWldNNlpLVjBnRHQ4VDFEaFBYTA=='
 
       },
@@ -200,8 +201,8 @@ class Alpaca {
       url: `https://broker-api.sandbox.alpaca.markets/v1/accounts/${accountId}/transfers`,
       headers: {
         accept: 'application/json',
+        'content-type': 'application/json',
         authorization: 'Basic Q0syVzlDUkZOM1VHV0RRQ0oySUg6MGRiYldxY1NBb0d3MjdmRzcyRG1RWldNNlpLVjBnRHQ4VDFEaFBYTA=='
-
       },
       data: {
         transfer_type: 'ach',
@@ -256,8 +257,8 @@ class Alpaca {
       url: `https://broker-api.sandbox.alpaca.markets/v1/trading/accounts/${accountId}/orders`,
       headers: {
         accept: 'application/json',
+        'content-type': 'application/json',
         authorization: 'Basic Q0syVzlDUkZOM1VHV0RRQ0oySUg6MGRiYldxY1NBb0d3MjdmRzcyRG1RWldNNlpLVjBnRHQ4VDFEaFBYTA=='
-
       },
       data: {
         type: 'market',
@@ -307,7 +308,6 @@ class Alpaca {
       headers: {
         accept: 'application/json',
         authorization: 'Basic Q0syVzlDUkZOM1VHV0RRQ0oySUg6MGRiYldxY1NBb0d3MjdmRzcyRG1RWldNNlpLVjBnRHQ4VDFEaFBYTA=='
-
       }
     };
 
@@ -333,7 +333,7 @@ class Alpaca {
    * API Doc Link: https://docs.alpaca.markets/reference/getpositionsforaccount-1
    * 
    * @param {string} accountID 
-   * @returns {bool} Returns true if the request went through, false if there was an error.
+   * @returns {Object[]|null} Returns an array of objects that contain the held stock info, or null if error occured. 
    */
   async listOpenPositions(accountId) {
 
@@ -343,7 +343,6 @@ class Alpaca {
       headers: {
         accept: 'application/json',
         authorization: 'Basic Q0syVzlDUkZOM1VHV0RRQ0oySUg6MGRiYldxY1NBb0d3MjdmRzcyRG1RWldNNlpLVjBnRHQ4VDFEaFBYTA=='
-
       }
     };
 
@@ -354,13 +353,13 @@ class Alpaca {
       response = await axios.request(options);
     } catch (error) {
       console.error(error.response.data);
-      return false;
+      return null;
     }
 
     console.debug('Status code: ', response.status);
     console.debug('Response Data: ', response.data);
 
-    return true;
+    return response.data
 
   }
 
@@ -389,7 +388,7 @@ class Alpaca {
       response = await axios.request(options);
     } catch (error) {
       console.error(error.response.data);
-      return false;
+      return null;
     }
 
     console.debug('Status code: ', response.status);
@@ -413,7 +412,7 @@ class Alpaca {
 
     // console.log(pacificTime); // formatted in Pacific Time
 
-    return true;
+    return response.data;
   }
     /**
    * Fetches stock details like current price, change %, and exchange info
