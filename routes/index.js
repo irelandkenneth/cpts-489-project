@@ -15,6 +15,41 @@ router.get('/', function(req, res) {
   res.render('Home', { user: req.session.user});
 });
 
+/* Create Account */
+router.get('/CreateAccount', (req, res) => {
+  res.render('CreateAccount');
+});
+
+
+router.post('/CreateAccount/NewAccount', async (req, res) => {
+  // Check if user exists
+  const possibleUser = await Users.findOne({ where: { email: req.body.email } });
+  console.log("Checking if user", req.body.email, "exists...")
+  if (possibleUser != null && possibleUser.email != null)
+  {
+    console.log('Account with the email ' + possibleUser.email + ' already exists. Redirecting...');
+    req.flash('error', 'Account with the email ' + possibleUser.email + ' already exists.');
+    return res.redirect('/CreateAccount');
+  }
+
+  // Create new alpaca account
+  console.log("Creating new account with alpaca...");
+  const alpacaAccInfo = await alpaca.createAccount();
+  console.log("Account created with id:", alpacaAccInfo.accountId, "and achRelationshipId:", alpacaAccInfo.achRelationshipId);
+
+  // Create application account with alpaca account id
+  console.log("Creating new user in database...");
+  const user = await Users.create({
+    alpaca_id: alpacaAccInfo.accountId,
+    email: req.body.email,
+    password: req.body.password,
+  });
+  console.log("User created with id:", user.id);
+
+  req.session.user = user;
+  return res.redirect('/');  
+});
+
 /* Login */
 router.get('/Login', function(req, res) {
   res.render('Login');
