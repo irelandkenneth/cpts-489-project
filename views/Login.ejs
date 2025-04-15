@@ -91,6 +91,13 @@
         color: white;
       }
 
+      .form-error {
+        color: red;
+        list-style-type: none;
+        padding: 0;
+        margin: 0;     
+      }
+
       @media (max-width: 500px) {
         .login-container {
           margin: 80px 20px;
@@ -117,6 +124,13 @@
 
     <div class="login-container">
       <h2>Login</h2>
+      <% if (errors && errors.length > 0) { %>
+        <ul>
+          <% errors.forEach(error => { %>
+            <li class="form-error"><%= error %></li>
+          <% }) %>
+        </ul>
+      <% } %>
       <form method="post" action="/Login/Signin">
         <div class="input-box">
           <label for="email">Email</label>

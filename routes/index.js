@@ -12,7 +12,7 @@ router.get('/', function(req, res) {
   if (req.session.user) {
     console.log(req.session.user.email, '-',)
   }
-  res.render('Home', { user: req.session.user});
+  res.render('Home', { user: req.session.user });
 });
 
 /* Create Account */
@@ -59,11 +59,13 @@ router.get('/Login', function(req, res) {
 router.post('/Login/Signin', async (req, res) => {
   const { email, password } = req.body;
   const user = await Users.findUser(email, password);
-  if (user !== null) {
-    req.session.user = user;
-    console.log("Logging in: ", req.session.user.email)
-    res.redirect('/');
+  if (user === null) {
+    req.flash('error', 'Incorrect user credentials, please try again.');
+    return res.redirect('/Login');
   }
+  req.session.user = user;
+  console.log("Logging in: ", req.session.user.email)
+  return res.redirect('/');
 })
 
 router.post('/Login/Signout', (req, res) => {
@@ -108,5 +110,32 @@ router.get('/stock/:symbol', async (req, res) => {
     res.status(500).send('Error loading stock data');
   }
 });
+
+router.get('/admin', async (req, res) => {
+  const query = req.query.q?.toLowerCase() || '';
+
+  // Get all users within application
+  var users = await Users.findUsers();
+  if (users === null) {
+    console.log('ERROR');
+    return redirect('/admin')
+  }
+  res.locals.users = users.filter(u =>
+    u.email.toLowerCase().includes(query)
+  );
+  res.locals.query = query;
+  return res.render('admin');
+})
+
+router.post('/admin/removeUser/:userId', async (req, res) => {
+  const userId = req.params.userId;
+  await Users.removeUser(userId);
+  if (deletedUser === null) {
+    console.log('ERROR');
+    return res.status(500).send('Error removing user');
+  }
+  console.log('This user is deleted:', deletedUser.email);
+  return res.redirect('/admin');
+})
 
 module.exports = router;

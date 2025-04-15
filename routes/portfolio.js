@@ -4,6 +4,7 @@ const Alpaca = require('../models/alpaca')
 const alpaca = new Alpaca()
 
 router.get('/', async function (req, res) {
+  const user = req.session.user;
 
   // change to user's alpaca id when auth/login implemented
   const openPositionsList = await alpaca.listOpenPositions("68c43f83-af08-4cca-93d8-e0e6e18a8568")
