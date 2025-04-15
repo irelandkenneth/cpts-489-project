@@ -28,9 +28,7 @@ class Alpaca {
       url: 'https://broker-api.sandbox.alpaca.markets/v1/accounts',
       headers: {
         accept: 'application/json',
-        'content-type': 'application/json',
-        'APCA-API-KEY-ID': process.env.ALPACA_API_KEY,
-'APCA-API-SECRET-KEY': process.env.ALPACA_SECRET_KEY
+        authorization: 'Basic Q0syVzlDUkZOM1VHV0RRQ0oySUg6MGRiYldxY1NBb0d3MjdmRzcyRG1RWldNNlpLVjBnRHQ4VDFEaFBYTA=='
 
       },
       data: {
@@ -128,9 +126,8 @@ class Alpaca {
       url: `https://broker-api.sandbox.alpaca.markets/v1/accounts/${accountId}/ach_relationships`,
       headers: {
         accept: 'application/json',
-        'content-type': 'application/json',
-'APCA-API-KEY-ID': process.env.ALPACA_API_KEY,
-'APCA-API-SECRET-KEY': process.env.ALPACA_SECRET_KEY
+        authorization: 'Basic Q0syVzlDUkZOM1VHV0RRQ0oySUg6MGRiYldxY1NBb0d3MjdmRzcyRG1RWldNNlpLVjBnRHQ4VDFEaFBYTA=='
+
       },
       data: {
         "account_owner_name": "fake",
@@ -161,9 +158,8 @@ class Alpaca {
       url: `https://broker-api.sandbox.alpaca.markets/v1/accounts/${accountId}/transfers`,
       headers: {
         accept: 'application/json',
-        'content-type': 'application/json',
-'APCA-API-KEY-ID': process.env.ALPACA_API_KEY,
-'APCA-API-SECRET-KEY': process.env.ALPACA_SECRET_KEY
+        authorization: 'Basic Q0syVzlDUkZOM1VHV0RRQ0oySUg6MGRiYldxY1NBb0d3MjdmRzcyRG1RWldNNlpLVjBnRHQ4VDFEaFBYTA=='
+
       },
       data: {
         transfer_type: 'ach',
@@ -204,9 +200,8 @@ class Alpaca {
       url: `https://broker-api.sandbox.alpaca.markets/v1/accounts/${accountId}/transfers`,
       headers: {
         accept: 'application/json',
-        'content-type': 'application/json',
-'APCA-API-KEY-ID': process.env.ALPACA_API_KEY,
-'APCA-API-SECRET-KEY': process.env.ALPACA_SECRET_KEY
+        authorization: 'Basic Q0syVzlDUkZOM1VHV0RRQ0oySUg6MGRiYldxY1NBb0d3MjdmRzcyRG1RWldNNlpLVjBnRHQ4VDFEaFBYTA=='
+
       },
       data: {
         transfer_type: 'ach',
@@ -261,9 +256,8 @@ class Alpaca {
       url: `https://broker-api.sandbox.alpaca.markets/v1/trading/accounts/${accountId}/orders`,
       headers: {
         accept: 'application/json',
-        'content-type': 'application/json',
-'APCA-API-KEY-ID': process.env.ALPACA_API_KEY,
-'APCA-API-SECRET-KEY': process.env.ALPACA_SECRET_KEY
+        authorization: 'Basic Q0syVzlDUkZOM1VHV0RRQ0oySUg6MGRiYldxY1NBb0d3MjdmRzcyRG1RWldNNlpLVjBnRHQ4VDFEaFBYTA=='
+
       },
       data: {
         type: 'market',
@@ -312,8 +306,8 @@ class Alpaca {
       url: `https://broker-api.sandbox.alpaca.markets/v1/trading/accounts/${accountId}/orders`,
       headers: {
         accept: 'application/json',
-'APCA-API-KEY-ID': process.env.ALPACA_API_KEY,
-'APCA-API-SECRET-KEY': process.env.ALPACA_SECRET_KEY
+        authorization: 'Basic Q0syVzlDUkZOM1VHV0RRQ0oySUg6MGRiYldxY1NBb0d3MjdmRzcyRG1RWldNNlpLVjBnRHQ4VDFEaFBYTA=='
+
       }
     };
 
@@ -348,8 +342,8 @@ class Alpaca {
       url: `https://broker-api.sandbox.alpaca.markets/v1/trading/accounts/${accountId}/positions`,
       headers: {
         accept: 'application/json',
-'APCA-API-KEY-ID': process.env.ALPACA_API_KEY,
-'APCA-API-SECRET-KEY': process.env.ALPACA_SECRET_KEY
+        authorization: 'Basic Q0syVzlDUkZOM1VHV0RRQ0oySUg6MGRiYldxY1NBb0d3MjdmRzcyRG1RWldNNlpLVjBnRHQ4VDFEaFBYTA=='
+
       }
     };
 

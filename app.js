@@ -4,7 +4,9 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const sequelize = require('./db');
-const session = require('express-session')
+const session = require('express-session');
+// Used for returning errors for form validation
+const flash = require('connect-flash');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -28,6 +30,13 @@ app.use(session({
   saveUninitialized: true,
   cookie: {secure: false}
 }))
+
+// form validation errors
+app.use(flash());
+app.use((req, res, next) => {
+  res.locals.errors = req.flash('error');
+  next();
+});
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
