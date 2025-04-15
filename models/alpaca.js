@@ -388,7 +388,7 @@ class Alpaca {
       response = await axios.request(options);
     } catch (error) {
       console.error(error.response.data);
-      return false;
+      return null;
     }
 
     console.debug('Status code: ', response.status);
@@ -412,7 +412,7 @@ class Alpaca {
 
     // console.log(pacificTime); // formatted in Pacific Time
 
-    return true;
+    return response.data;
   }
     /**
    * Fetches stock details like current price, change %, and exchange info
