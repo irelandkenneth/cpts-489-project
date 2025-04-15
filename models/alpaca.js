@@ -29,9 +29,7 @@ class Alpaca {
       headers: {
         accept: 'application/json',
         'content-type': 'application/json',
-        'APCA-API-KEY-ID': process.env.ALPACA_API_KEY,
-'APCA-API-SECRET-KEY': process.env.ALPACA_SECRET_KEY
-
+        authorization: 'Basic Q0syVzlDUkZOM1VHV0RRQ0oySUg6MGRiYldxY1NBb0d3MjdmRzcyRG1RWldNNlpLVjBnRHQ4VDFEaFBYTA=='
       },
       data: {
 
@@ -129,8 +127,7 @@ class Alpaca {
       headers: {
         accept: 'application/json',
         'content-type': 'application/json',
-'APCA-API-KEY-ID': process.env.ALPACA_API_KEY,
-'APCA-API-SECRET-KEY': process.env.ALPACA_SECRET_KEY
+        authorization: 'Basic Q0syVzlDUkZOM1VHV0RRQ0oySUg6MGRiYldxY1NBb0d3MjdmRzcyRG1RWldNNlpLVjBnRHQ4VDFEaFBYTA=='
       },
       data: {
         "account_owner_name": "fake",
@@ -162,8 +159,8 @@ class Alpaca {
       headers: {
         accept: 'application/json',
         'content-type': 'application/json',
-'APCA-API-KEY-ID': process.env.ALPACA_API_KEY,
-'APCA-API-SECRET-KEY': process.env.ALPACA_SECRET_KEY
+        authorization: 'Basic Q0syVzlDUkZOM1VHV0RRQ0oySUg6MGRiYldxY1NBb0d3MjdmRzcyRG1RWldNNlpLVjBnRHQ4VDFEaFBYTA=='
+
       },
       data: {
         transfer_type: 'ach',
@@ -205,8 +202,7 @@ class Alpaca {
       headers: {
         accept: 'application/json',
         'content-type': 'application/json',
-'APCA-API-KEY-ID': process.env.ALPACA_API_KEY,
-'APCA-API-SECRET-KEY': process.env.ALPACA_SECRET_KEY
+        authorization: 'Basic Q0syVzlDUkZOM1VHV0RRQ0oySUg6MGRiYldxY1NBb0d3MjdmRzcyRG1RWldNNlpLVjBnRHQ4VDFEaFBYTA=='
       },
       data: {
         transfer_type: 'ach',
@@ -262,8 +258,7 @@ class Alpaca {
       headers: {
         accept: 'application/json',
         'content-type': 'application/json',
-'APCA-API-KEY-ID': process.env.ALPACA_API_KEY,
-'APCA-API-SECRET-KEY': process.env.ALPACA_SECRET_KEY
+        authorization: 'Basic Q0syVzlDUkZOM1VHV0RRQ0oySUg6MGRiYldxY1NBb0d3MjdmRzcyRG1RWldNNlpLVjBnRHQ4VDFEaFBYTA=='
       },
       data: {
         type: 'market',
@@ -312,8 +307,7 @@ class Alpaca {
       url: `https://broker-api.sandbox.alpaca.markets/v1/trading/accounts/${accountId}/orders`,
       headers: {
         accept: 'application/json',
-'APCA-API-KEY-ID': process.env.ALPACA_API_KEY,
-'APCA-API-SECRET-KEY': process.env.ALPACA_SECRET_KEY
+        authorization: 'Basic Q0syVzlDUkZOM1VHV0RRQ0oySUg6MGRiYldxY1NBb0d3MjdmRzcyRG1RWldNNlpLVjBnRHQ4VDFEaFBYTA=='
       }
     };
 
@@ -339,7 +333,7 @@ class Alpaca {
    * API Doc Link: https://docs.alpaca.markets/reference/getpositionsforaccount-1
    * 
    * @param {string} accountID 
-   * @returns {bool} Returns true if the request went through, false if there was an error.
+   * @returns {Object[]|null} Returns an array of objects that contain the held stock info, or null if error occured. 
    */
   async listOpenPositions(accountId) {
 
@@ -348,8 +342,7 @@ class Alpaca {
       url: `https://broker-api.sandbox.alpaca.markets/v1/trading/accounts/${accountId}/positions`,
       headers: {
         accept: 'application/json',
-'APCA-API-KEY-ID': process.env.ALPACA_API_KEY,
-'APCA-API-SECRET-KEY': process.env.ALPACA_SECRET_KEY
+        authorization: 'Basic Q0syVzlDUkZOM1VHV0RRQ0oySUg6MGRiYldxY1NBb0d3MjdmRzcyRG1RWldNNlpLVjBnRHQ4VDFEaFBYTA=='
       }
     };
 
@@ -360,13 +353,13 @@ class Alpaca {
       response = await axios.request(options);
     } catch (error) {
       console.error(error.response.data);
-      return false;
+      return null;
     }
 
     console.debug('Status code: ', response.status);
     console.debug('Response Data: ', response.data);
 
-    return true;
+    return response.data
 
   }
 
@@ -384,8 +377,8 @@ class Alpaca {
       url: `https://broker-api.sandbox.alpaca.markets/v1/trading/accounts/${accountID}/account/portfolio/history?period=1D&timeframe=1H&intraday_reporting=continuous&pnl_reset=per_day`,
       headers: {
         accept: 'application/json',
-        'APCA-API-KEY-ID': process.env.ALPACA_API_KEY,
-        'APCA-API-SECRET-KEY': process.env.ALPACA_SECRET_KEY
+        authorization: 'Basic Q0syVzlDUkZOM1VHV0RRQ0oySUg6MGRiYldxY1NBb0d3MjdmRzcyRG1RWldNNlpLVjBnRHQ4VDFEaFBYTA=='
+
       }
     };
 

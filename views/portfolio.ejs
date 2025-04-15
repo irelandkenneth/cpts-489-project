@@ -45,6 +45,14 @@
         <div>Portfolio Change: <span class="red">-$10</span></div>
         <div>Portfolio Change %: <span class="red">-15%</span></div>
       </div>
+      <h1> Held Positions: </h1>
+      <% for (position of open_postions_list) { %>
+        <tr>
+          <td>Stock: <%= position.symbol %></td>
+          <td>Quantity: <%= position.qty %></td>
+          <td>Total Return: $<%= position.unrealized_pl %></td>
+        </tr>
+      <% } %>
     </main>
 
     <script>
