@@ -32,6 +32,18 @@ class Users extends Model {
             console.log(error);
         }
     }
+
+    static async toggleBan(id) {
+        try {
+            const user = await Users.findOne({ where: { id: id } });
+        
+            user.banned = !user.banned;
+            await user.save();
+            return user;
+        } catch (error) {
+            console.error(error);
+        }
+    }
 }
 
 Users.init({
@@ -51,6 +63,10 @@ Users.init({
     },
     password: {
         type: DataTypes.STRING,
+        allowNull: false
+    },
+    banned: {
+        type: DataTypes.BOOLEAN,
         allowNull: false
     }
 }, {

@@ -65,8 +65,10 @@
                             <form id="removeUserForm<%= userInfo.id %>" action="/admin/removeUser/<%= userInfo.id %>" method="post">
                               <button form="removeUserForm<%= userInfo.id %>" type="submit" class="btn btn-outline-light">Remove</button>
                             </form>
-                            <button type="button" class="btn btn-outline-danger">Ban</button>
-                            <% } %>
+                            <form id="toggleBanForm<%= userInfo.id %>" action="/admin/toggleBan/<%= userInfo.id %>" method="post"></form>
+                              <button form="toggleBanForm<%= userInfo.id %>" type="submit" class="btn btn-outline-danger"><%= userInfo.banned ? 'Unban' : 'Ban' %></button>
+                            </form>
+                              <% } %>
                         </div>
             <%
                     }

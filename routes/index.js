@@ -43,6 +43,7 @@ router.post('/CreateAccount/NewAccount', async (req, res) => {
     alpaca_id: alpacaAccInfo.accountId,
     email: req.body.email,
     password: req.body.password,
+    banned: 0
   });
   console.log("User created with id:", user.id);
 
@@ -61,6 +62,10 @@ router.post('/Login/Signin', async (req, res) => {
   const user = await Users.findUser(email, password);
   if (user === null) {
     req.flash('error', 'Incorrect user credentials, please try again.');
+    return res.redirect('/Login');
+  }
+  if (user.banned) {
+    req.flash('error', 'You have been banned from VirtualMarket.');
     return res.redirect('/Login');
   }
   req.session.user = user;
@@ -129,12 +134,23 @@ router.get('/admin', async (req, res) => {
 
 router.post('/admin/removeUser/:userId', async (req, res) => {
   const userId = req.params.userId;
-  await Users.removeUser(userId);
+  var deletedUser = await Users.removeUser(userId);
   if (deletedUser === null) {
     console.log('ERROR');
     return res.status(500).send('Error removing user');
   }
   console.log('This user is deleted:', deletedUser.email);
+  return res.redirect('/admin');
+})
+
+router.post('/admin/toggleBan/:userId', async (req, res) => {
+  const userId = req.params.userId;
+  var bannedUser = await Users.toggleBan(userId);
+  if (bannedUser === null) {
+    console.log('ERROR');
+    return res.status(500).send('Error toggling ban');
+  }
+  console.log('This user\'s ban has been altered:', bannedUser.email);
   return res.redirect('/admin');
 })
 
