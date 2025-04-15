@@ -243,12 +243,12 @@ class Alpaca {
   async createOrder(accountId, symbol, quantity, notional, side) {
     if (side !== 'buy' && side !== 'sell') {
       console.error('Parameter `side` must be "buy" or "sell". Got: ', side);
-      return null;
+      return false;
     }
 
     if (quantity && notional) {
       console.error('Parameters `quantity` and `notional` are exclusive, cannot have both.')
-      return null
+      return false;
     }
 
 
