@@ -66,6 +66,22 @@
         <div class="stock-change <%= changePercent >= 0 ? 'green' : 'red' %>">
           <%= changePercent >= 0 ? '+' : '' %><%= changePercent %>%
         </div>
+        <% if (user) { %>
+          <form action="/stock/<%= stockSymbol %>" method="POST" class="buy-stock-form d-flex align-items-center gap-2 mt-4">
+          <input type="hidden" name="stockSymbol" value="<%= stockSymbol %>">
+          <label for="quantity" class="form-label mb-0 text-white">Quantity:</label>
+          <input
+            type="number"
+            id="quantity"
+            name="quantity"
+            class="form-control bg-dark text-white border-secondary"
+            min="1"
+            required
+            style="max-width: 100px;"
+          />
+          <button type="submit" class="btn btn-success">Buy</button>
+        <% } %>
+        </form>        
       </div>
 
       <div class="stock-info">

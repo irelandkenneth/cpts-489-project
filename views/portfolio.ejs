@@ -28,21 +28,33 @@
         <div>Portfolio Change: $<%- portfolioHistory.profit_loss.at(-1) %></div>
         <div>Portfolio Change %: <%- portfolioHistory.profit_loss_pct.at(-1) * 100 %></div>
       </div>
-      <h1> Held Positions: </h1>
-      <% for (position of openPositionsList) { %>
-        <tr>
-          <td>Stock: <%= position.symbol %></td>
-          <td>Quantity: <%= position.qty %></td>
-          <td>Total Return: $<%= position.unrealized_pl %></td>
-          <td>
+      <h1>Held Positions:</h1>
+      <div class="positions-list">
+        <% for (const position of openPositionsList) { %>
+          <div class="position-item mb-4 p-3 border rounded bg-dark text-white">
+            <p><strong>Stock:</strong> <%= position.symbol %></p>
+            <p><strong>Quantity:</strong> <%= position.qty %></p>
+            <p><strong>Total Return:</strong> $<%= position.unrealized_pl %></p>
             <form action="/portfolio/sell" method="POST">
               <input type="hidden" name="stockSymbol" value="<%= position.symbol %>">
               <input type="number" name="quantity" min="1" max="<%= position.qty %>" required>
-              <button type="submit">Sell</button>
+              <button class="btn btn-sm btn-danger" type="submit">Sell</button>
             </form>
-          </td>
-        </tr>
-      <% } %>
+          </div>
+        <% } %>
+      </div>
+      <h1>Open Orders:</h1>
+      <div class="orders-list">
+        <% for (const openOrder of openOrders) { %>
+          <div class="order-item mb-4 p-3 border rounded bg-dark text-white">
+            <p><strong>Stock:</strong> <%= openOrder.symbol %></p>
+            <p><strong>Quantity:</strong> <%= openOrder.qty %></p>
+            <p><strong>Side:</strong> <%= openOrder.side %></p>
+            <p><strong>Status:</strong> <%= openOrder.status %></p>
+          </div>
+        <% } %>
+      </div>      
+      
     </main>
 
     <script>

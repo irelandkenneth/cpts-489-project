@@ -81,10 +81,39 @@ router.post('/Login/Signout', (req, res) => {
 })
 
 /* Stock Search Page */
-router.get('/stock', (req, res) => {
+router.get('/stock', async (req, res) => {
   const symbol = req.query.symbol;
-  res.render('stock', { stockSymbol: symbol });
+  const popularSymbols = ['AAPL', 'GOOGL', 'AMZN', 'MSFT', 'TSLA', 'META', 'NFLX'];
+  let popularStocks = [];
+
+  try {
+    for (const sym of popularSymbols) {
+      const stock = await alpaca.getStockDetails(sym);
+      if (stock) {
+        popularStocks.push({
+          symbol: sym,
+          name: stock.name,
+          price: stock.price,
+          changePercent: stock.changePercent
+        });
+      }
+    }
+
+    res.render('stock', {
+      stockSymbol: symbol,
+      popularStocks
+    });
+
+  } catch (err) {
+    console.error('Error fetching popular stock data:', err);
+    res.render('stock', {
+      stockSymbol: symbol,
+      popularStocks: [],
+      error: 'Unable to load popular stocks.'
+    });
+  }
 });
+
 
 /* Search form redirect */
 router.get('/stock/search', (req, res) => {
@@ -111,12 +140,27 @@ router.get('/stock/:symbol', async (req, res) => {
       changePercent: stock.changePercent,
       exchange: stock.exchange,
       assetClass: stock.assetClass,
+      user: req.session.user
     });
   } catch (err) {
     console.error('Error fetching stock data:', err.message);
     res.status(500).send('Error loading stock data');
   }
 });
+
+router.post('/stock/*', async (req, res) => {
+  const { stockSymbol, quantity } = req.body
+  var alpacaId
+  try {
+    alpacaId = req.session.user.alpaca_id
+  } catch (err) {
+    console.error('Error buying stock:', err.message);
+    res.status(500).send('Error buying stock.');
+  }
+
+  alpaca.createOrder(alpacaId, stockSymbol, quantity, null, "buy")
+  res.redirect('/portfolio')
+})
 
 router.get('/admin', async (req, res) => {
   const query = req.query.q?.toLowerCase() || '';
