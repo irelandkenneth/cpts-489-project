@@ -127,6 +127,20 @@ router.get('/admin', async (req, res) => {
     console.log('ERROR');
     return redirect('/admin')
   }
+
+  var ports = [];
+  for (user of users)
+  {
+    var portfolio = await alpaca.getPortfolioHistory(user.alpaca_id);
+    if (portfolio === null) {
+      console.log('ERROR');
+    }
+
+    ports.push({alpacaid: user.alpaca_id, portfolio: portfolio.equity.at(-1)})
+  }
+
+  res.locals.portfolios = ports;
+
   res.locals.users = users.filter(u =>
     u.email.toLowerCase().includes(query)
   );

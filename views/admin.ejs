@@ -60,7 +60,7 @@
                         </div>
                         <!-- This needs to be changed-->
                         <div class="col border-top">
-                            $12345.67
+                          <%= portfolios.find(p => p.alpacaid == userInfo.alpaca_id).portfolio %>
                         </div>
                         <div class="col border-top"> 
                             <button data-bs-toggle="modal" data-bs-target="#modal<%= userInfo.id %>" type="button" class="btn btn-outline-light">Deposit</button>
