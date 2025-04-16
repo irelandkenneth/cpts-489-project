@@ -41,6 +41,7 @@ router.post('/CreateAccount/NewAccount', async (req, res) => {
   console.log("Creating new user in database...");
   const user = await Users.create({
     alpaca_id: alpacaAccInfo.accountId,
+    ach_relationship_id: alpacaAccInfo.achRelationshipId,
     email: req.body.email,
     password: req.body.password,
     banned: 0,
@@ -170,6 +171,20 @@ router.get('/admin', async (req, res) => {
     console.log('ERROR');
     return redirect('/admin')
   }
+
+  var ports = [];
+  for (user of users)
+  {
+    var portfolio = await alpaca.getPortfolioHistory(user.alpaca_id);
+    if (portfolio === null) {
+      console.log('ERROR');
+    }
+
+    ports.push({alpacaid: user.alpaca_id, portfolio: portfolio.equity.at(-1)})
+  }
+
+  res.locals.portfolios = ports;
+
   res.locals.users = users.filter(u =>
     u.email.toLowerCase().includes(query)
   );
@@ -207,6 +222,28 @@ router.post('/admin/toggleAdmin/:userId', async (req, res) => {
     return res.status(500).send('Error toggling admin');
   }
   console.log('This user\'s admin status has been altered:', adminUser.email);
+  return res.redirect('/admin');
+})
+
+router.post('/admin/depositCash/:userId', async (req, res) => {
+  console.log("Here");
+  const userId = req.params.userId;
+  const depositAmount = req.body.depositAmount;
+
+  var user = await Users.findOne({ where: { id: userId } });
+  console.log(user);
+  if (user === null) {
+    console.log('ERROR');
+    return res.status(500).send('Error finding user');
+  }
+
+  var transfer = await alpaca.requestNewTransfer(user.alpaca_id, user.ach_relationship_id, String(depositAmount));
+  if (transfer === null) {
+    console.log('ERROR');
+    return res.status(500).send('Error depositing cash');
+  }
+
+  console.log('The user', user.email, 'was deposited', depositAmount);
   return res.redirect('/admin');
 })
 

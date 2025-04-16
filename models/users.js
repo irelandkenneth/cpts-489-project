@@ -69,6 +69,10 @@ Users.init({
         type: DataTypes.STRING,
         allowNull: false
     },
+    ach_relationship_id: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
     email: {
         type: DataTypes.STRING,
         allowNull: false

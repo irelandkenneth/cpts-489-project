@@ -196,6 +196,8 @@ class Alpaca {
    */
   async requestNewTransfer(accountId, achRelationshipId, amount) {
 
+    console.log(accountId, achRelationshipId, amount);
+
     const create_transfer_optoins = {
       method: 'POST',
       url: `https://broker-api.sandbox.alpaca.markets/v1/accounts/${accountId}/transfers`,
@@ -213,12 +215,9 @@ class Alpaca {
       }
     }
 
-    console.log(`Transferring ${initial_amount} into account...`)
-
     try {
       response = await axios.request(create_transfer_optoins);
     } catch (error) {
-      console.error(error.response.data);
       return false
     }
 

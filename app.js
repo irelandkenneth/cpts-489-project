@@ -29,8 +29,12 @@ app.use(session({
   secret: 'wsu498FinalProj',
   resave: false,
   saveUninitialized: true,
-  cookie: {secure: false}
-}))
+  cookie: { 
+    path: '/', 
+    httpOnly: true, 
+    secure: false, 
+    maxAge: null }}
+))
 
 app.use((req, res, next) => {
   res.locals.user = req.session.user;
