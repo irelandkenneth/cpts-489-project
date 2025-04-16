@@ -366,7 +366,7 @@ class Alpaca {
   /**
    * Gets the portfolio history for a given account. Check the doc link for the output format.
    * 
-   * API Doc Link: https://docs.alpaca.markets/reference/getpositionsforaccount-1
+   * API Doc Link: https://docs.alpaca.markets/reference/get-v1-trading-accounts-account_id-account-portfolio-history-1
    * 
    * @param {string} accountID 
    * @returns {bool} Returns true if the request went through, false if there was an error.
@@ -413,6 +413,31 @@ class Alpaca {
     // console.log(pacificTime); // formatted in Pacific Time
 
     return response.data;
+  }
+
+  async getOpenOrders(accountID) {
+    const options = {
+      method: 'GET',
+      url: `https://broker-api.sandbox.alpaca.markets/v1/trading/accounts/${accountID}/orders`,
+      headers: {
+        accept: 'application/json',
+        authorization: 'Basic Q0tHMkRZMTEzRFk4WUVDMVk3R1Q6NDhaUWxRZFlpNmNZNjdFWEJWY0wwaGVwcjRxeTliNHdmZkpUMVNEQw=='
+      }
+    };
+    
+    let response
+
+    try {
+      response = await axios.request(options);
+    } catch (error) {
+      console.error(error.response.data);
+      return null;
+    }
+
+    console.debug('Status code: ', response.status);
+    console.debug('Response Data: ', response.data);
+
+    return response.data
   }
     /**
    * Fetches stock details like current price, change %, and exchange info

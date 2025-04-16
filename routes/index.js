@@ -139,12 +139,27 @@ router.get('/stock/:symbol', async (req, res) => {
       changePercent: stock.changePercent,
       exchange: stock.exchange,
       assetClass: stock.assetClass,
+      user: req.session.user
     });
   } catch (err) {
     console.error('Error fetching stock data:', err.message);
     res.status(500).send('Error loading stock data');
   }
 });
+
+router.post('/stock/*', async (req, res) => {
+  const { stockSymbol, quantity } = req.body
+  var alpacaId
+  try {
+    alpacaId = req.session.user.alpaca_id
+  } catch (err) {
+    console.error('Error buying stock:', err.message);
+    res.status(500).send('Error buying stock.');
+  }
+
+  alpaca.createOrder(alpacaId, stockSymbol, quantity, null, "buy")
+  res.redirect('/portfolio')
+})
 
 router.get('/admin', async (req, res) => {
   const query = req.query.q?.toLowerCase() || '';
