@@ -449,12 +449,11 @@ class Alpaca {
           const stockBaseUrl = 'https://data.alpaca.markets/v2/stocks';
           const assetBaseUrl = 'https://paper-api.alpaca.markets/v2/assets';
           const headers = {
-            'APCA-API-KEY-ID': process.env.ALPACA_API_KEY,
-            'APCA-API-SECRET-KEY': process.env.ALPACA_SECRET_KEY,
+            'APCA-API-KEY-ID': "PK8Z0S2KIUDFCCYJLOK0",
+            'APCA-API-SECRET-KEY': "XDLbbGp4G1NgosLBsVac1FJQkSfzT9Ki0GWY1oL2",
           };
         
           try {
-            // ✅ 1. Get snapshot (price data)
             const snapshotUrl = `${stockBaseUrl}/${symbol}/snapshot`;
             const snapshotRes = await axios.get(snapshotUrl, { headers });
         
@@ -463,7 +462,6 @@ class Alpaca {
             const open = snapshot.dailyBar?.o || 0;
             const changePercent = open ? (((latest - open) / open) * 100).toFixed(2) : 0;
         
-            // ✅ 2. Get asset info (company name, exchange, etc.)
             const assetUrl = `${assetBaseUrl}/${symbol}`;
             const assetRes = await axios.get(assetUrl, { headers });
             const asset = assetRes.data;
