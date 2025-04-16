@@ -29,6 +29,9 @@
   <body class="bg-dark">
     <%- include('header.ejs') %>
 
+    <!-- Deposit Modal-->
+    <button id="charts" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal">MODAL</button>
+
     <div class="container mt-5 bg-dark">
         <div class="input-group mb-3 w-25 justify-content-center">
             <form class="search-form" action="/admin" method="get">
@@ -60,7 +63,7 @@
                             $12345.67
                         </div>
                         <div class="col border-top"> 
-                            <button type="button" class="btn btn-outline-light">Deposit</button>
+                            <button data-bs-toggle="modal" data-bs-target="#modal<%= userInfo.id %>" type="button" class="btn btn-outline-light">Deposit</button>
                             <% if (userInfo.email != user.email) { %>
                             <form id="removeUserForm<%= userInfo.id %>" action="/admin/removeUser/<%= userInfo.id %>" method="post">
                               <button form="removeUserForm<%= userInfo.id %>" type="submit" class="btn btn-outline-light">Remove</button>
@@ -73,6 +76,26 @@
                             </form>
                               <% } %>
                         </div>
+
+                        <!-- Form Modal -->
+                        <div class="modal" id="modal<%= userInfo.id%>" tabindex="-1" aria-hidden="true">
+                          <div class="modal-dialog modal-dialog-scrollable">
+                              <div class="modal-content">
+									<div class="modal-body">
+										<h3 style="color:black">
+											Deposit Cash
+										</h3>
+										<form id="depositCash<%= userInfo.id %>" action="/admin/depositCash/<%= userInfo.id %>" method="post">
+											<input name="depositAmount" type="number" class="form-control" step="0.01" placeholder="Enter deposit amount">
+										</form>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+										<button type="submit" form="depositCash<%= userInfo.id %>" class="btn btn-primary" data-bs-dismiss="modal" required>Submit</button>
+									</div>
+                              </div>
+                          </div>
+                      </div>
             <%
                     }
                 } 
