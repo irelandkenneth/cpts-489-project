@@ -80,10 +80,39 @@ router.post('/Login/Signout', (req, res) => {
 })
 
 /* Stock Search Page */
-router.get('/stock', (req, res) => {
+router.get('/stock', async (req, res) => {
   const symbol = req.query.symbol;
-  res.render('stock', { stockSymbol: symbol });
+  const popularSymbols = ['AAPL', 'GOOGL', 'AMZN', 'MSFT', 'TSLA', 'META', 'NFLX'];
+  let popularStocks = [];
+
+  try {
+    for (const sym of popularSymbols) {
+      const stock = await alpaca.getStockDetails(sym);
+      if (stock) {
+        popularStocks.push({
+          symbol: sym,
+          name: stock.name,
+          price: stock.price,
+          changePercent: stock.changePercent
+        });
+      }
+    }
+
+    res.render('stock', {
+      stockSymbol: symbol,
+      popularStocks
+    });
+
+  } catch (err) {
+    console.error('Error fetching popular stock data:', err);
+    res.render('stock', {
+      stockSymbol: symbol,
+      popularStocks: [],
+      error: 'Unable to load popular stocks.'
+    });
+  }
 });
+
 
 /* Search form redirect */
 router.get('/stock/search', (req, res) => {
