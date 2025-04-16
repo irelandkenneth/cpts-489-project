@@ -366,7 +366,7 @@ class Alpaca {
   /**
    * Gets the portfolio history for a given account. Check the doc link for the output format.
    * 
-   * API Doc Link: https://docs.alpaca.markets/reference/getpositionsforaccount-1
+   * API Doc Link: https://docs.alpaca.markets/reference/get-v1-trading-accounts-account_id-account-portfolio-history-1
    * 
    * @param {string} accountID 
    * @returns {bool} Returns true if the request went through, false if there was an error.
