@@ -422,34 +422,41 @@ class Alpaca {
    * @returns {object|null} Stock data
    */
     async getStockDetails(symbol) {
-      const baseUrl = 'https://data.alpaca.markets/v2/stocks';
-      const headers = {
-        'APCA-API-KEY-ID': process.env.ALPACA_API_KEY,
-        'APCA-API-SECRET-KEY': process.env.ALPACA_SECRET_KEY,
-      };
-    
-      try {
-        const snapshotUrl = `${baseUrl}/${symbol}/snapshot`;
-        const response = await axios.get(snapshotUrl, { headers });
-    
-    
-        const data = response.data;
-        const latest = data.latestTrade?.p || 0;
-        const open = data.dailyBar?.o || 0;
-        const changePercent = open ? (((latest - open) / open) * 100).toFixed(2) : 0;
-    
-        return {
-          name: symbol,
-          price: latest.toFixed(2),
-          changePercent,
-          exchange: data.symbol || 'N/A',
-          assetClass: 'us_equity',
-        };
-      } catch (error) {
-        console.error(`Alpaca Market Data Error [${symbol}]:`, error.response?.data || error.message);
-        return null;
-      }
-    }    
+          const stockBaseUrl = 'https://data.alpaca.markets/v2/stocks';
+          const assetBaseUrl = 'https://paper-api.alpaca.markets/v2/assets';
+          const headers = {
+            'APCA-API-KEY-ID': process.env.ALPACA_API_KEY,
+            'APCA-API-SECRET-KEY': process.env.ALPACA_SECRET_KEY,
+          };
+        
+          try {
+            // ✅ 1. Get snapshot (price data)
+            const snapshotUrl = `${stockBaseUrl}/${symbol}/snapshot`;
+            const snapshotRes = await axios.get(snapshotUrl, { headers });
+        
+            const snapshot = snapshotRes.data;
+            const latest = snapshot.latestTrade?.p || 0;
+            const open = snapshot.dailyBar?.o || 0;
+            const changePercent = open ? (((latest - open) / open) * 100).toFixed(2) : 0;
+        
+            // ✅ 2. Get asset info (company name, exchange, etc.)
+            const assetUrl = `${assetBaseUrl}/${symbol}`;
+            const assetRes = await axios.get(assetUrl, { headers });
+            const asset = assetRes.data;
+        
+            return {
+              name: asset.name || symbol,
+              price: latest.toFixed(2),
+              changePercent,
+              exchange: asset.exchange || 'N/A',
+              assetClass: asset.class || 'us_equity'
+            };
+        
+          } catch (error) {
+            console.error(`Alpaca Market Data Error [${symbol}]:`, error.response?.data || error.message);
+            return null;
+          }
+        }
 }
 
 // example of how to incur
