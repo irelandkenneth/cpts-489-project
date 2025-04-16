@@ -18,6 +18,7 @@ router.use(sessionChecker)
 router.get('/', async (req, res) => {
 
   const alpacaId = req.session.user.alpaca_id
+  console.log("alpaca id", alpacaId)
 
   // change to user's alpaca id when auth/login implemented
   const openPositionsList = await alpaca.listOpenPositions(alpacaId)
@@ -46,8 +47,9 @@ router.get('/', async (req, res) => {
     pacificTimestamps.push(pacificTime)
   }
 
+  const openOrders = await alpaca.getOpenOrders(alpacaId)
   console.log(portfolioHistory)
-  res.render('portfolio', { openPositionsList,  portfolioHistory, pacificTimestamps});
+  res.render('portfolio', { openPositionsList,  portfolioHistory, pacificTimestamps, openOrders});
 });
 
 router.post('/sell', (req, res) => {

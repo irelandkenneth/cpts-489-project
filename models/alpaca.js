@@ -414,6 +414,31 @@ class Alpaca {
 
     return response.data;
   }
+
+  async getOpenOrders(accountID) {
+    const options = {
+      method: 'GET',
+      url: `https://broker-api.sandbox.alpaca.markets/v1/trading/accounts/${accountID}/orders`,
+      headers: {
+        accept: 'application/json',
+        authorization: 'Basic Q0tHMkRZMTEzRFk4WUVDMVk3R1Q6NDhaUWxRZFlpNmNZNjdFWEJWY0wwaGVwcjRxeTliNHdmZkpUMVNEQw=='
+      }
+    };
+    
+    let response
+
+    try {
+      response = await axios.request(options);
+    } catch (error) {
+      console.error(error.response.data);
+      return null;
+    }
+
+    console.debug('Status code: ', response.status);
+    console.debug('Response Data: ', response.data);
+
+    return response.data
+  }
     /**
    * Fetches stock details like current price, change %, and exchange info
    * using Alpaca's Market Data API v2.
@@ -424,8 +449,8 @@ class Alpaca {
     async getStockDetails(symbol) {
       const baseUrl = 'https://data.alpaca.markets/v2/stocks';
       const headers = {
-        'APCA-API-KEY-ID': process.env.ALPACA_API_KEY,
-        'APCA-API-SECRET-KEY': process.env.ALPACA_SECRET_KEY,
+        'APCA-API-KEY-ID': "PK8Z0S2KIUDFCCYJLOK0",
+        'APCA-API-SECRET-KEY': "XDLbbGp4G1NgosLBsVac1FJQkSfzT9Ki0GWY1oL2",
       };
     
       try {
